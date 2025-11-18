@@ -1,13 +1,13 @@
 # 📚 Clasificator de Titluri Sportive - Naive Bayes Multinomial
 
-Acest proiect implementează \\textbf{de la zero} un model de clasificare a textelor folosind algoritmul **Naive Bayes Multinomial** în Python, fără a folosi biblioteci de machine learning pre-existente (precum `scikit-learn`) pentru logica de clasificare.
+Acest proiect implementează de la zero un model de clasificare a textelor folosind algoritmul **Naive Bayes Multinomial** în Python, fără a folosi biblioteci de machine learning pre-existente (precum `scikit-learn`) pentru logica de clasificare.
 
 ## 📁 Structura Proiectului
 
 În directorul proiectului, găsești următoarele fișiere cheie:
 
 ```
-project/
+BAYESMODEL/
 │
 ├── MB.py             # Implementarea clasei Naive Bayes Multinomial (core logic)
 ├── getter.py         # Funcții pentru preprocesarea textului și încărcarea datelor
@@ -46,18 +46,6 @@ Rulează întregul flux de lucru al clasificatorului:
 3.  **Evaluează** performanța pe setul de testare.
 4.  **Afișează** acuratețea, matricea de confuzie și raportul de clasificare detaliat.
 5.  **Testează** modelul pe exemple predefinite și afișează predicțiile.
-
------
-
-## 📖 Învățare Suplimentară
-
-Poți aprofunda conceptele folosite în acest proiect consultând următoarele resurse:
-
-### Naive Bayes & NLP
-
-  * **Multinomial Naive Bayes:** Află despre fundamentul acestui clasificator, adesea folosit pentru clasificarea documentelor.
-  * **Laplace Smoothing (Additive Smoothing):** Înțelege de ce este necesar să adaugi $\alpha=1$ pentru a gestiona cuvintele care nu apar în setul de antrenare.
-  * **Text Preprocessing:** Studiază etapele de tokenizare, eliminare a *stopwords*-urilor și impactul lor asupra performanței.
 
 -----
 

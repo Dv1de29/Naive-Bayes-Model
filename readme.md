@@ -1,128 +1,82 @@
-\documentclass[12pt]{article}
-\usepackage[romanian]{babel}
-\usepackage{hyperref}
-\usepackage{amsmath}
-\usepackage{geometry}
-\usepackage{titlesec}
-\usepackage{enumitem}
-\geometry{a4paper, margin=1in}
+# 📚 Clasificator de Titluri Sportive - Naive Bayes Multinomial
 
-\title{Clasificator de Titluri Sportive folosind Naive Bayes Multinomial}
-\author{}
-\date{}
+Acest proiect implementează \\textbf{de la zero} un model de clasificare a textelor folosind algoritmul **Naive Bayes Multinomial** în Python, fără a folosi biblioteci de machine learning pre-existente (precum `scikit-learn`) pentru logica de clasificare.
 
-\begin{document}
+## 📁 Structura Proiectului
 
-\maketitle
+În directorul proiectului, găsești următoarele fișiere cheie:
 
-\section*{Descriere Generală}
-
-Acest proiect implementează \textbf{de la zero} un model de clasificare a textelor folosind \textbf{Naive Bayes Multinomial}, având ca scop identificarea tipului de sport din titlurile știrilor. Programul încarcă date dintr-un fișier CSV, le procesează, le împarte în seturi de antrenare şi testare, antrenează modelul şi evaluează performanţa folosind acurateţe, matrice de confuzie şi clasificare detaliată.
-
-\section*{Funcționalități principale}
-
-\begin{itemize}[itemsep=2pt]
-    \item Încărcarea datasetului din fișier CSV.
-    \item Tokenizare completă a textului (regex, lowercase, eliminare stopword-uri).
-    \item Implementare manuală a modelului Multinomial Naive Bayes.
-    \item Aplicarea smoothing-ului Laplace ($\alpha = 1.0$).
-    \item Filtrarea datelor pentru sporturile principale.
-    \item Împărțire 80/20 între seturile de antrenare și test.
-    \item Evaluare prin acuratețe, matrice de confuzie și classification report.
-    \item Testare pe exemple reale și custom.
-\end{itemize}
-
-\section*{Structura Proiectului}
-
-\begin{verbatim}
+```
 project/
 │
-├── MB.py             # Implementarea modelului Naive Bayes
-├── getter.py         # Funcții de preprocesare
-├── main.py           # Cod principal (training, testare)
-├── news_dataset.csv  # Datasetul utilizat
-└── README.tex        # Documentația proiectului
-\end{verbatim}
+├── MB.py             # Implementarea clasei Naive Bayes Multinomial (core logic)
+├── getter.py         # Funcții pentru preprocesarea textului și încărcarea datelor
+├── main.py           # Script principal pentru training, testare și evaluare
+└── news_dataset.csv  # Dataset-ul de știri sportive
+```
 
-\section*{Preprocesarea Textului}
+-----
 
-Textul este supus următoarelor transformări:
+## 🛠️ Pregătirea Proiectului
 
-\begin{enumerate}[itemsep=4pt]
-    \item Transformare la lowercase.
-    \item Extracție de tokeni cu expresie regulată: \\
-    \verb![a-zA-Z]+(?:-[a-zA-Z]+)*!
-    \item Eliminarea stopword-urilor precum: \emph{a, the, of, for, in, on, and}.
-    \item Eliminarea cuvintelor cu lungime mai mică de 3 caractere.
-    \item Returnarea listei de tokeni.
-\end{enumerate}
+Asigură-te că ai **Python 3.x** instalat.
 
-\section*{Modelul Naive Bayes Multinomial}
+### Dependențe
 
-Modelul este implementat fără biblioteci externe de machine learning. Pentru fiecare clasă se calculează:
+Acest proiect necesită biblioteca `pandas` (pentru citirea fișierului CSV) și, opțional, `numpy`.
 
-\begin{itemize}
-    \item numărul aparițiilor fiecărui cuvânt,
-    \item numărul total de documente din clasă,
-    \item priorul $P(c)$,
-    \item probabilitatea fiecărui cuvânt cu Laplace smoothing.
-\end{itemize}
+În directorul proiectului, poți rula:
 
-Formula utilizată este:
+```bash
+pip install pandas numpy
+```
 
-\[
-P(\text{class} \mid \text{words}) \propto
-P(\text{class}) \prod_{\text{word}}
-\frac{count(\text{word}, \text{class}) + \alpha}
-{total\_words(\text{class}) + \alpha \cdot |V|}
-\]
+-----
 
-Predicția se obţine selectând clasa cu probabilitatea logaritmică maximă.
+## 🏃 Scripturi Disponibile
 
-\section*{Rulare}
+În directorul proiectului, poți rula:
 
-Asigură-te că ai Python instalat, apoi rulează:
+### `python main.py`
 
-\begin{verbatim}
-python main.py
-\end{verbatim}
+Rulează întregul flux de lucru al clasificatorului:
 
-\section*{Output generat}
+1.  **Încarcă** și **preprocesează** datele din `news_dataset.csv`.
+2.  **Antrenează** modelul **Naive Bayes Multinomial** implementat manual.
+3.  **Evaluează** performanța pe setul de testare.
+4.  **Afișează** acuratețea, matricea de confuzie și raportul de clasificare detaliat.
+5.  **Testează** modelul pe exemple predefinite și afișează predicțiile.
 
-La rulare, programul afișează:
+-----
 
-\begin{itemize}
-    \item numărul de mostre menținute după filtrare,
-    \item distribuția datelor în train/test,
-    \item acuratețea clasificatorului,
-    \item predicții pentru exemple suplimentare,
-    \item matricea de confuzie,
-    \item classification report (precision, recall, F1-score).
-\end{itemize}
+## 📖 Învățare Suplimentară
 
-\section*{Exemple de predicții}
+Poți aprofunda conceptele folosite în acest proiect consultând următoarele resurse:
 
-Programul clasifica exemple precum:
+### Naive Bayes & NLP
 
-\begin{itemize}
-    \item \texttt{Messi scores a hat-trick for PSG} $\rightarrow$ Football
-    \item \texttt{Virat Kohli scores century against Australia} $\rightarrow$ Cricket
-    \item \texttt{Hamilton wins Italian Grand Prix} $\rightarrow$ Formula1
-    \item \texttt{Curry drops 45 points in Warriors win} $\rightarrow$ Basketball
-\end{itemize}
+  * **Multinomial Naive Bayes:** Află despre fundamentul acestui clasificator, adesea folosit pentru clasificarea documentelor.
+  * **Laplace Smoothing (Additive Smoothing):** Înțelege de ce este necesar să adaugi $\alpha=1$ pentru a gestiona cuvintele care nu apar în setul de antrenare.
+  * **Text Preprocessing:** Studiază etapele de tokenizare, eliminare a *stopwords*-urilor și impactul lor asupra performanței.
 
-\section*{Posibile Extensii}
+-----
 
-\begin{itemize}[itemsep=3pt]
-    \item Introducerea vectorizării TF-IDF.
-    \item Compararea cu implementarea scikit-learn.
-    \item Curățarea și augmentarea datasetului.
-    \item Implementarea Logistic Regression sau SVM.
-    \item Crearea unei interfețe web pentru clasificare în timp real.
-\end{itemize}
+## 🎯 Evaluarea Performanței
 
-\section*{Licență}
+Când rulezi `main.py`, rezultatul va include:
 
-Proiect open-source — codul poate fi utilizat liber pentru studiu și extindere.
+### Acuartețea (Accuracy)
 
-\end{document}
+Acuratețea generală a clasificatorului pe setul de test.
+
+### Matricea de Confuzie (Confusion Matrix)
+
+O vizualizare tabelară a predicțiilor corecte și incorecte (True Positives, False Positives, etc.) pentru fiecare clasă.
+
+### Raportul de Clasificare (Classification Report)
+
+Acesta oferă metrici esențiale per clasă:
+
+  * **Precision (Precizie):** Din toate instanțele clasificate ca fiind o anumită clasă, cât de multe au fost corecte.
+  * **Recall (Rechemare):** Din toate instanțele care *ar fi trebuit* să fie clasificate ca o anumită clasă, câte au fost clasificate corect.
+  * **F1-Score:** Media armonică a Preciziei și Recall-ului, utilă mai ales în cazul dataset-urilor dezechilibrate.

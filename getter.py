@@ -16,7 +16,7 @@ def load_csv_label_text(path, label_col=0, text_col=1, delimiter=',', header=Fal
     with open(path, newline='', encoding='utf-8') as f:
         reader = csv.reader(f, delimiter=delimiter)
         if header:
-            next(reader)  # skip the header row
+            next(reader)
         for row in reader:
             label = row[label_col].strip()
             text = row[text_col].strip()
@@ -28,11 +28,10 @@ def load_csv_label_text(path, label_col=0, text_col=1, delimiter=',', header=Fal
 if __name__ == "__main__":
     data_path = "./news_dataset.csv" 
     
-    # Încarcă titlurile și etichetele
     docs, labels = load_csv_label_text(
         path=data_path,
-        label_col=1,  # Sport
-        text_col=0,   # Headline
+        label_col=1,
+        text_col=0,
         delimiter=',',
         header=True
     )

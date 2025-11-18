@@ -1,4 +1,5 @@
 import random
+from sklearn.metrics import classification_report
 
 from getter import *
 from MB import *
@@ -9,8 +10,8 @@ if __name__ == "__main__":
 
     docs, labels = load_csv_label_text(
         path=data_path,
-        label_col=1,  # Sport
-        text_col=0,   # Headline
+        label_col=1,
+        text_col=0,  
         delimiter=',',
         header=True
     )
@@ -50,31 +51,9 @@ if __name__ == "__main__":
     print(set(labels))
 
 
-    # clf = MultinomialNB(alpha=1.0)
-    # clf.fit(train_docs, train_labels)
-
     augmented_docs = list(train_docs)
-    augmented_labels = list(train_labels)
+    augmented_labels = list(train_labels) 
 
-    # sport_keywords = {
-    #     'Football': ['goal','penalty','hat', 'trick','offside','corner'],
-    #     'Basketball': ['free_throw','three_pointer','dunk','alley_oop','shot_clock'],
-    #     'Formula1': ['grand_prix','pole_position','lap_time','pit_stop','qualifying'],
-    #     'Tennis': ['break_point','ace','deuce','backhand','grand_slam'],
-    #     'Baseball': ['home_run','innings','pitcher','bullpen','strikeout'],
-    #     'Cricket': ['wicket','overs','innings','bowled','test_match']
-    # }
-
-    # print(set(labels))
-
-    # for sport, keywords in sport_keywords.items():
-    #     for _ in range(100): 
-    #         augmented_docs.append(keywords) 
-    #         augmented_labels.append(sport)   
-
-    
-
-    # Train once with the augmented data
     clf = MultinomialNB(alpha=1.0)
     clf.fit(augmented_docs, augmented_labels)
 
@@ -88,12 +67,121 @@ if __name__ == "__main__":
     print(f"Accuracy: {accuracy:.4f}")
 
     examples = [
-        "Messi scores a hat-trick for PSG",  # Football
-        "LeBron James leads Lakers to victory",  # Basketball
-        "Hamilton wins Italian Grand Prix",  # Formula1
-        "UFC fighter wins via knockout",  # Combat Sports
-        "Novak Djokovic wins Australian Open"  # Tennis
-    ]
+    # Football
+    "Messi scores a hat-trick for PSG",  # Football
+    "Ronaldo nets late winner for Al Nassr",  # Football
+    "Liverpool dominate Manchester United in derby clash",  # Football
+    "Real Madrid lift Champions League trophy",  # Football
+    "Mbappé signs new contract with PSG",  # Football
+    "Chelsea sack head coach after poor results",  # Football
+    "Arsenal top Premier League after big win",  # Football
+    "Barcelona claim victory in El Clasico",  # Football
+    "Haaland scores five goals in Champions League",  # Football
+    "Tottenham seal comeback win in London derby",  # Football
+    "England secure Euro qualification spot",  # Football
+    "Neymar returns from injury in Copa America",  # Football
+    "Juventus beat Inter Milan in Serie A thriller",  # Football
+    "Bayern Munich clinch Bundesliga title again",  # Football
+    "AC Milan announce new midfield signing",  # Football
+    "Argentina defeat Brazil in World Cup qualifier",  # Football
+    "Manchester City crowned Premier League champions",  # Football,
+
+    # Cricket
+    "Virat Kohli scores century against Australia",  # Cricket
+    "England win Ashes series at Lord’s",  # Cricket
+    "India beat Pakistan in T20 World Cup",  # Cricket
+    "Australia claim ODI victory over New Zealand",  # Cricket
+    "Ben Stokes leads England to dramatic Test win",  # Cricket
+    "Pakistan chase down record total in Asia Cup",  # Cricket
+    "South Africa collapse in final innings",  # Cricket
+    "Bumrah takes five wickets in second Test",  # Cricket
+    "Rohit Sharma named new Indian captain",  # Cricket
+    "New Zealand bowlers dominate in day-night match",  # Cricket
+    "Bangladesh stun West Indies in major upset",  # Cricket
+    "Steve Smith returns to form with unbeaten 120",  # Cricket
+    "India clinch series after tight final match",  # Cricket
+    "Dhoni announces retirement from international cricket",  # Cricket
+    "Afghanistan secure historic Test win",  # Cricket
+    "Sri Lanka edge past Zimbabwe in thriller",  # Cricket
+    "West Indies post massive total in first innings",  # Cricket,
+
+    # Basketball
+    "LeBron James leads Lakers to victory",  # Basketball
+    "Curry drops 45 points in Warriors win",  # Basketball
+    "Giannis dominates as Bucks crush Celtics",  # Basketball
+    "Doncic hits buzzer-beater to stun Clippers",  # Basketball
+    "Durant returns from injury for Brooklyn Nets",  # Basketball
+    "Embiid scores career-high in Sixers triumph",  # Basketball
+    "Tatum leads Boston to Eastern Conference title",  # Basketball
+    "Heat advance to NBA Finals after tough series",  # Basketball
+    "Wembanyama shines in rookie debut for Spurs",  # Basketball
+    "Jokic records triple-double in Nuggets win",  # Basketball
+    "Mavericks beat Suns in overtime thriller",  # Basketball
+    "Lillard hits game-winning three-pointer",  # Basketball
+    "Bulls upset Raptors on the road",  # Basketball
+    "Knicks sign major free agent ahead of season",  # Basketball
+    "Lakers clinch playoff spot with big win",  # Basketball
+    "Warriors celebrate back-to-back championships",  # Basketball
+    "USA wins gold in Olympic basketball final",  # Basketball,
+
+    # Tennis
+    "Novak Djokovic wins Australian Open",  # Tennis
+    "Rafael Nadal claims French Open title",  # Tennis
+    "Carlos Alcaraz defeats Medvedev in US Open final",  # Tennis
+    "Iga Swiatek dominates in WTA Finals",  # Tennis
+    "Serena Williams announces retirement",  # Tennis
+    "Roger Federer says goodbye after Laver Cup",  # Tennis
+    "Coco Gauff wins first Grand Slam trophy",  # Tennis
+    "Murray battles to five-set victory in Wimbledon",  # Tennis
+    "Zverev advances to semifinal in Paris",  # Tennis
+    "Sabalenka lifts Madrid Open trophy",  # Tennis
+    "Djokovic breaks record for most Grand Slam wins",  # Tennis
+    "Kyrgios fined after on-court outburst",  # Tennis
+    "Nadal withdraws from tournament due to injury",  # Tennis
+    "Tsitsipas shocks top seed in quarterfinal",  # Tennis
+    "Osaka returns with win after long break",  # Tennis
+    "Thiem wins comeback match after injury",  # Tennis
+    "Sinner secures victory in Monte Carlo Masters",  # Tennis,
+
+    # Baseball
+    "Yankees beat Red Sox in extra innings",  # Baseball
+    "Shohei Ohtani hits two home runs in win",  # Baseball
+    "Dodgers clinch National League title",  # Baseball
+    "Mets pitcher throws complete-game shutout",  # Baseball
+    "Astros defeat Braves in World Series opener",  # Baseball
+    "Aaron Judge breaks home run record",  # Baseball
+    "Cubs rally late to beat Cardinals",  # Baseball
+    "Padres sign star shortstop to record deal",  # Baseball
+    "Phillies secure playoff spot with key victory",  # Baseball
+    "Rangers win dramatic walk-off game",  # Baseball
+    "Blue Jays pitcher strikes out twelve batters",  # Baseball
+    "Giants claim series win over Rockies",  # Baseball
+    "Yankees bullpen shuts down Orioles offense",  # Baseball
+    "Nationals trade veteran catcher to Brewers",  # Baseball
+    "Marlins edge Diamondbacks in ninth inning",  # Baseball
+    "Tigers announce new manager for 2025 season",  # Baseball
+    "Twins slugger hits grand slam in first inning",  # Baseball,
+
+    # Formula1
+    "Hamilton wins Italian Grand Prix",  # Formula1
+    "Verstappen dominates Monaco Grand Prix",  # Formula1
+    "Leclerc claims pole position in Bahrain",  # Formula1
+    "Norris finishes second in thrilling race",  # Formula1
+    "Ferrari unveil new car for upcoming season",  # Formula1
+    "Perez secures victory at Singapore GP",  # Formula1
+    "Mercedes team celebrates double podium finish",  # Formula1
+    "Alonso returns to podium after strong drive",  # Formula1
+    "Russell outpaces teammate in qualifying",  # Formula1
+    "Red Bull confirm championship title win",  # Formula1
+    "Sainz retires early due to engine failure",  # Formula1
+    "Ricciardo makes comeback with AlphaTauri",  # Formula1
+    "Piastri scores first points in Formula 1",  # Formula1
+    "Hamilton criticizes tire strategy after loss",  # Formula1
+    "McLaren introduce major aerodynamic upgrade",  # Formula1
+    "Bottas sets fastest lap in practice session",  # Formula1
+    "Gasly penalized for track limits violation",  # Formula1
+]
+
 
     for headline in examples:
         print(headline, "->", clf.predict(tokenize(headline)))
@@ -104,14 +192,13 @@ if __name__ == "__main__":
         predicted = clf.predict(doc)
         confusion[true_label][predicted] += 1
 
-    # Print confusion matrix header
     sports = sorted(set(labels))
     print("\nConfusion Matrix:\n")
-    print(" " * 15 + " ".join(f"{s[:10]:>10}" for s in sports))  # header row
+    print(" " * 15 + " ".join(f"{s[:10]:>10}" for s in sports))
 
-    # Print each row of the matrix
     for true_label in sports:
         row = f"{true_label[:13]:>13} | " + " ".join(f"{confusion[true_label][pred]:>10}" for pred in sports)
         print(row)
 
+    print(classification_report(test_labels, [clf.predict(d) for d in test_docs]))
 
